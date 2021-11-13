@@ -37,7 +37,7 @@ public class Matrice {
         return trace;
     }
 
-    /* TO DO : completer l'implementation des 7 proprietes ci-dessous */
+    /* TO DO : completer l'implementation des 5 proprietes ci-dessous */
 	public double getDeterminant() {
 		return 0;
 	}
@@ -58,9 +58,10 @@ public class Matrice {
 		return false;
 	}
 
-	public boolean isEstReguliere() {
-		return false;
-	}
+    public boolean isEstReguliere() {
+        // Matrice inversible
+        return isEstCarree() && (getDeterminant() > 0);
+    }
 	
 	// Multiply the matrice by another
 	public Matrice multiply(Matrice matrice) {
