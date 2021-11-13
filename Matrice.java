@@ -7,7 +7,6 @@ public class Matrice {
 	private int nbrCol;
 
 	public Matrice() {
-		CreerMatrice();
 	}
 
 	public double[][] getMatrice() {
@@ -34,11 +33,11 @@ public class Matrice {
 	public double getDeterminant() {
 		return 0;
 	}
-
+    
 	public Matrice getTransposee() {
 		return new Matrice();
 	}
-
+	
 	public Matrice getCoMatrice() {
 		return new Matrice();
 	}

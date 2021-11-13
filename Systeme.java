@@ -10,5 +10,5 @@ public class Systeme {
 	public Matrice getB() {
 		return B;
 	}
-
+	
 }
