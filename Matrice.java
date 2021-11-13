@@ -95,8 +95,9 @@ public class Matrice {
     }
 
 	/* Méthode d'initialisation du tableau à deux dimension */
-	public double[][] CreerMatrice() {
-        int nbrLigne = 0, nbrCol = 0;
+	public static double[][] UserCreationMatrice() {
+		double[][] matrice;
+		int nbrLigne = 0, nbrCol = 0;
 		String line, col;
 		boolean userInputIsOk;
 
@@ -130,7 +131,7 @@ public class Matrice {
 			}
 		} while (!userInputIsOk);
 
-		this.matrice = new double[nbrLigne][nbrCol];
+		matrice = new double[nbrLigne][nbrCol];
 
 		for (int i = 0; i < nbrLigne; i++) {
 			String input;
@@ -149,7 +150,7 @@ public class Matrice {
 						clavier.nextLine();
 						clearScreen();
 					} else {
-						this.matrice[i][j] = Double.parseDouble(input);
+						matrice[i][j] = Double.parseDouble(input);
 					}
 				} while (!userInputIsOk);
 			}
@@ -157,11 +158,11 @@ public class Matrice {
 
 		clavier.close();
 
-		return this.matrice;
+		return matrice;
 	}
 
 	/* Méthode de validation de la saisie d'un entier par l'utilisateur */
-	private boolean UserInputValidationForInt(String userInput) {
+	private static boolean UserInputValidationForInt(String userInput) {
 
 		try {
 			Integer.parseInt(userInput);
