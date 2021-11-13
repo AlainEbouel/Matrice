@@ -2,12 +2,13 @@
 import java.util.Scanner;
 
 public class Matrice {
-	private double[][] matrice;
-	private int nbrLigne;
-	private int nbrCol;
+    private double[][] matrice;
 
-	public Matrice() {
-	}
+    public Matrice() {}
+
+    public Matrice (double[][] matrice) {
+        this.matrice = matrice;
+    }
 
 	public double[][] getMatrice() {
 		return matrice;
@@ -18,11 +19,11 @@ public class Matrice {
 	}
 
 	public int getNbrLigne() {
-		return nbrLigne;
+		return matrice.length;
 	}
 
 	public int getNbrCol() {
-		return nbrCol;
+		return matrice[0].length;
 	}
 
 	/* TO DO : completer l'implementation des 7 proprietes ci-dessous */
@@ -56,7 +57,7 @@ public class Matrice {
 
 	/* Méthode d'initialisation du tableau à deux dimension */
 	public double[][] CreerMatrice() {
-
+        int nbrLigne = 0, nbrCol = 0;
 		String line, col;
 		boolean userInputIsOk;
 
@@ -77,10 +78,10 @@ public class Matrice {
 				clavier.nextLine();
 				clearScreen();
 			} else {
-				this.nbrLigne = Integer.parseInt(line);
-				this.nbrCol = Integer.parseInt(col);
+				nbrLigne = Integer.parseInt(line);
+				nbrCol = Integer.parseInt(col);
 
-				if (this.nbrLigne == 0 || this.nbrCol == 0) {
+				if (nbrLigne == 0 || nbrCol == 0) {
 					System.out.println(
 							"Entrer invalide. La dimension doit être un entier strictement positif. Appuyez sur 'Enter' pour recommencer");
 					userInputIsOk = false;
@@ -92,12 +93,12 @@ public class Matrice {
 
 		this.matrice = new double[nbrLigne][nbrCol];
 
-		for (int i = 0; i < this.nbrLigne; i++) {
+		for (int i = 0; i < nbrLigne; i++) {
 			String input;
 
 			System.out.println("Entrez tour à tour les valeurs de la " + (i + 1) + "e ligne.");
 
-			for (int j = 0; j < this.nbrCol; j++) {
+			for (int j = 0; j < nbrCol; j++) {
 
 				do {
 					input = clavier.nextLine();
@@ -151,10 +152,10 @@ public class Matrice {
 	public String toString() {
 		String affichageMatrice = "";
 
-		for (int i = 0; i < this.nbrLigne; i++) {
+		for (int i = 0; i < getNbrLigne(); i++) {
 			affichageMatrice += "| ";
 
-			for (int j = 0; j < this.nbrCol; j++) {
+			for (int j = 0; j < getNbrCol(); j++) {
 				affichageMatrice += Double.toString(this.matrice[i][j]) + " ";
 			}
 			affichageMatrice += "|\n";
