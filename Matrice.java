@@ -26,11 +26,18 @@ public class Matrice {
 		return matrice[0].length;
 	}
 
-	/* TO DO : completer l'implementation des 7 proprietes ci-dessous */
-	public double getTrace() {
-		return 0;
-	}
+    public double getTrace() {
+        if (!isEstCarree())
+            return 0;
+        
+        int trace = 0;
+        for (int i = 0; i < getNbrLigne(); i++)
+            trace += matrice[i][i];
+        
+        return trace;
+    }
 
+    /* TO DO : completer l'implementation des 7 proprietes ci-dessous */
 	public double getDeterminant() {
 		return 0;
 	}
