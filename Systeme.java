@@ -1,20 +1,14 @@
 
-public class Systeme 
-{
+public class Systeme {
 	private Matrice A;
 	private Matrice B;
-	
-	
-	public Matrice getA() 
-	{
+
+	public Matrice getA() {
 		return A;
 	}
-	
-	public Matrice getB() 
-	{
+
+	public Matrice getB() {
 		return B;
 	}
-	
-	
 
 }
