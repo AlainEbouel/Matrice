@@ -62,9 +62,9 @@ public class Matrice {
         // Matrice inversible
         return isEstCarree() && (getDeterminant() > 0);
     }
-	
-	// Multiply the matrice by another
-	public Matrice multiply(Matrice matrice) {
+
+    // Multiply the matrice by another
+    public Matrice multiply(Matrice matrice) {
         /*
             We first check if we actually can multiply the two
             matrices together
@@ -83,7 +83,16 @@ public class Matrice {
         }
         
         return new Matrice(multipliedMatrice);
-	}
+    }
+
+    Matrice TrouverXParInversionMatricielle(Matrice B) {
+        if (!isEstReguliere()) {
+            System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
+            return null;
+        }
+        
+        return getMatriceInverse().multiply(B);
+    }
 
 	/* Méthode d'initialisation du tableau à deux dimension */
 	public double[][] CreerMatrice() {
