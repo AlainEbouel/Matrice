@@ -10,5 +10,8 @@ public class Systeme {
 	public Matrice getB() {
 		return B;
 	}
-	
+
+    public String toString() {
+        return "Systeme:\n\nA:\n" + A + "\n\nB:\n" + B;
+    }
 }
