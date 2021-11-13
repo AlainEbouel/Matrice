@@ -5,13 +5,6 @@ public class Matrice {
 	private double[][] matrice;
 	private int nbrLigne;
 	private int nbrCol;
-	private double trace;
-	private double determinant;
-	private Matrice transposee;
-	private Matrice coMatrice;
-	private Matrice matriceInverse;
-	private boolean estCarree;
-	private boolean estReguliere;
 
 	public Matrice() {
 		CreerMatrice();
@@ -35,31 +28,31 @@ public class Matrice {
 
 	/* TO DO : completer l'implementation des 7 proprietes ci-dessous */
 	public double getTrace() {
-		return trace;
+		return 0;
 	}
 
 	public double getDeterminant() {
-		return determinant;
+		return 0;
 	}
 
 	public Matrice getTransposee() {
-		return transposee;
+		return new Matrice();
 	}
 
 	public Matrice getCoMatrice() {
-		return coMatrice;
+		return new Matrice();
 	}
 
 	public Matrice getMatriceInverse() {
-		return matriceInverse;
+		return new Matrice();
 	}
 
 	public boolean isEstCarree() {
-		return estCarree;
+		return false;
 	}
 
 	public boolean isEstReguliere() {
-		return estReguliere;
+		return false;
 	}
 
 	/* Méthode d'initialisation du tableau à deux dimension */
