@@ -54,6 +54,28 @@ public class Matrice {
 	public boolean isEstReguliere() {
 		return false;
 	}
+	
+	// Multiply the matrice by another
+	public Matrice multiply(Matrice matrice) {
+        /*
+            We first check if we actually can multiply the two
+            matrices together
+        */
+        if (getNbrCol() != matrice.getNbrLigne())
+            return null;
+            
+        double[][] multipliedMatrice = new double[getNbrLigne()][matrice.getNbrCol()];
+        
+        for (int i = 0; i < getNbrLigne(); i++) {
+            for (int j = 0; j < matrice.getNbrCol(); j++) {
+                for (int k = 0; k < getNbrCol(); k++) {
+                    multipliedMatrice[i][j] += this.matrice[i][k] * matrice.getMatrice()[k][j];
+                }
+            }
+        }
+        
+        return new Matrice(multipliedMatrice);
+	}
 
 	/* Méthode d'initialisation du tableau à deux dimension */
 	public double[][] CreerMatrice() {
