@@ -3,8 +3,7 @@ import java.util.Scanner;
 
 public class Matrice {
 	private double[][] matrice;
-	private int nbrLigne;
-	private int nbrCol;
+
 	private double trace;
 	private double determinant;
 	private Matrice transposee;
@@ -13,24 +12,12 @@ public class Matrice {
 	private boolean estCarree;
 	private boolean estReguliere;
 
-	public Matrice() {
-		CreerMatrice();
+	public Matrice(double[][] matrice) {
+		this.matrice = matrice;
 	}
 
 	public double[][] getMatrice() {
 		return matrice;
-	}
-
-	public void setMatrice(double[][] matrice) {
-		this.matrice = matrice;
-	}
-
-	public int getNbrLigne() {
-		return nbrLigne;
-	}
-
-	public int getNbrCol() {
-		return nbrCol;
 	}
 
 	/* TO DO : completer l'implementation des 7 proprietes ci-dessous */
@@ -63,8 +50,9 @@ public class Matrice {
 	}
 
 	/* Méthode d'initialisation du tableau à deux dimension */
-	public double[][] CreerMatrice() {
-
+	public static double[][] UserCreationMatrice() {
+		double[][] matrice;
+		int nbrLigne = 0, nbrCol = 0;
 		String line, col;
 		boolean userInputIsOk;
 
@@ -85,10 +73,10 @@ public class Matrice {
 				clavier.nextLine();
 				clearScreen();
 			} else {
-				this.nbrLigne = Integer.parseInt(line);
-				this.nbrCol = Integer.parseInt(col);
+				nbrLigne = Integer.parseInt(line);
+				nbrCol = Integer.parseInt(col);
 
-				if (this.nbrLigne == 0 || this.nbrCol == 0) {
+				if (nbrLigne == 0 || nbrCol == 0) {
 					System.out.println(
 							"Entrer invalide. La dimension doit être un entier strictement positif. Appuyez sur 'Enter' pour recommencer");
 					userInputIsOk = false;
@@ -98,14 +86,14 @@ public class Matrice {
 			}
 		} while (!userInputIsOk);
 
-		this.matrice = new double[nbrLigne][nbrCol];
+		matrice = new double[nbrLigne][nbrCol];
 
-		for (int i = 0; i < this.nbrLigne; i++) {
+		for (int i = 0; i < nbrLigne; i++) {
 			String input;
 
 			System.out.println("Entrez tour à tour les valeurs de la " + (i + 1) + "e ligne.");
 
-			for (int j = 0; j < this.nbrCol; j++) {
+			for (int j = 0; j < nbrCol; j++) {
 
 				do {
 					input = clavier.nextLine();
@@ -117,7 +105,7 @@ public class Matrice {
 						clavier.nextLine();
 						clearScreen();
 					} else {
-						this.matrice[i][j] = Double.parseDouble(input);
+						matrice[i][j] = Double.parseDouble(input);
 					}
 				} while (!userInputIsOk);
 			}
@@ -125,11 +113,11 @@ public class Matrice {
 
 		clavier.close();
 
-		return this.matrice;
+		return matrice;
 	}
 
 	/* Méthode de validation de la saisie d'un entier par l'utilisateur */
-	private boolean UserInputValidationForInt(String userInput) {
+	private static boolean UserInputValidationForInt(String userInput) {
 
 		try {
 			Integer.parseInt(userInput);
@@ -159,11 +147,11 @@ public class Matrice {
 	public String toString() {
 		String affichageMatrice = "";
 
-		for (int i = 0; i < this.nbrLigne; i++) {
+		for (int i = 0; i < this.matrice.length; i++) {
 			affichageMatrice += "| ";
 
-			for (int j = 0; j < this.nbrCol; j++) {
-				affichageMatrice += Double.toString(this.matrice[i][j]) + " ";
+			for (int j = 0; j < this.matrice[0].length; j++) {
+				affichageMatrice += Double.toString(this.matrice[i][j]) + "   ";
 			}
 			affichageMatrice += "|\n";
 		}
