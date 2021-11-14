@@ -10,6 +10,9 @@ public class Main {
 
 		Matrice matrice = new Matrice(tabMatrice);
 		System.out.println(matrice);
+
+		matrice = matrice.FaireProduitScalaire(2);
+
+		System.out.println(matrice);
 	}
 }
-

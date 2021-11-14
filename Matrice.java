@@ -2,13 +2,15 @@
 import java.util.Scanner;
 
 public class Matrice {
-    private double[][] matrice;
+	private double[][] matrice;
 
-    public Matrice() {}
+	public Matrice() {
 
-    public Matrice (double[][] matrice) {
-        this.matrice = matrice;
-    }
+	}
+
+	public Matrice(double[][] matrice) {
+		this.matrice = matrice;
+	}
 
 	public double[][] getMatrice() {
 		return matrice;
@@ -26,26 +28,35 @@ public class Matrice {
 		return matrice[0].length;
 	}
 
-    public double getTrace() {
-        if (!isEstCarree())
-            return 0;
-        
-        int trace = 0;
-        for (int i = 0; i < getNbrLigne(); i++)
-            trace += matrice[i][i];
-        
-        return trace;
-    }
+	public double getTrace() {
+		if (!isEstCarree())
+			return 0;
 
-    /* TO DO : completer l'implementation des 5 proprietes ci-dessous */
+		int trace = 0;
+		for (int i = 0; i < getNbrLigne(); i++)
+			trace += matrice[i][i];
+
+		return trace;
+	}
+
 	public double getDeterminant() {
 		return 0;
 	}
-    
+
 	public Matrice getTransposee() {
-		return new Matrice();
+
+		double[][] transpose = new double[getNbrCol()][getNbrLigne()];
+
+		for (int i = 0; i < getNbrLigne(); i++) {
+			for (int j = 0; j < getNbrCol(); j++) {
+				transpose[j][i] = matrice[i][j];
+			}
+		}
+
+		return new Matrice(transpose);
 	}
-	
+
+	/* TO DO : completer l'implementation des 4 proprietes ci-dessous */
 	public Matrice getCoMatrice() {
 		return new Matrice();
 	}
@@ -58,41 +69,61 @@ public class Matrice {
 		return false;
 	}
 
-    public boolean isEstReguliere() {
-        // Matrice inversible
-        return isEstCarree() && (getDeterminant() > 0);
-    }
+	public boolean isEstReguliere() {
+		// Matrice inversible
+		return isEstCarree() && (getDeterminant() > 0);
+	}
 
-    // Multiply the matrice by another
-    public Matrice multiply(Matrice matrice) {
-        /*
-            We first check if we actually can multiply the two
-            matrices together
-        */
-        if (getNbrCol() != matrice.getNbrLigne())
-            return null;
-            
-        double[][] multipliedMatrice = new double[getNbrLigne()][matrice.getNbrCol()];
-        
-        for (int i = 0; i < getNbrLigne(); i++) {
-            for (int j = 0; j < matrice.getNbrCol(); j++) {
-                for (int k = 0; k < getNbrCol(); k++) {
-                    multipliedMatrice[i][j] += this.matrice[i][k] * matrice.getMatrice()[k][j];
-                }
-            }
-        }
-        
-        return new Matrice(multipliedMatrice);
-    }
+	public double getNumber(int ligne, int colonne) {
+		return this.matrice[ligne][colonne];
+	}
 
-    Matrice TrouverXParInversionMatricielle(Matrice B) {
-        if (!isEstReguliere()) {
-            System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
-            return null;
-        }
-        
-        return getMatriceInverse().multiply(B);
-    }
+	public void setNumber(int ligne, int colonne, double nbr) {
+		this.matrice[ligne][colonne] = nbr;
+	}
+
+	// Multiply the matrice by another
+	public Matrice multiply(Matrice matrice) {
+		/*
+		 * We first check if we actually can multiply the two matrices together
+		 */
+		if (getNbrCol() != matrice.getNbrLigne())
+			return null;
+
+		double[][] multipliedMatrice = new double[getNbrLigne()][matrice.getNbrCol()];
+
+		for (int i = 0; i < getNbrLigne(); i++) {
+			for (int j = 0; j < matrice.getNbrCol(); j++) {
+				for (int k = 0; k < getNbrCol(); k++) {
+					multipliedMatrice[i][j] += this.matrice[i][k] * matrice.getMatrice()[k][j];
+				}
+			}
+		}
+
+		return new Matrice(multipliedMatrice);
+	}
+
+	Matrice TrouverXParInversionMatricielle(Matrice B) {
+		if (!isEstReguliere()) {
+			System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
+			return null;
+		}
+
+		return getMatriceInverse().multiply(B);
+	}
+
+	public Matrice FaireProduitScalaire(int scalaire) {
+		double[][] newMatrice = new double[getNbrLigne()][getNbrCol()];
+
+		for (int i = 0; i < getNbrLigne(); i++) {
+			for (int j = 0; j < getNbrCol(); j++) {
+
+				newMatrice[i][j] = this.matrice[i][j] * scalaire;
+			}
+		}
+
+		return new Matrice(newMatrice);
+	}
 
 	/* Méthode d'initialisation du tableau à deux dimension */
 	public static double[][] UserCreationMatrice() {
@@ -196,7 +227,7 @@ public class Matrice {
 			affichageMatrice += "| ";
 
 			for (int j = 0; j < getNbrCol(); j++) {
-				affichageMatrice += Double.toString(this.matrice[i][j]) + " ";
+				affichageMatrice += Double.toString(this.matrice[i][j]) + "  ";
 			}
 			affichageMatrice += "|\n";
 		}
