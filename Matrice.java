@@ -5,7 +5,7 @@ public class Matrice {
 	private double[][] matrice;
 
 	public Matrice() {
-
+		matrice = null;
 	}
 
 	public Matrice(double[][] matrice) {
@@ -102,17 +102,9 @@ public class Matrice {
 
 		return new Matrice(multipliedMatrice);
 	}
-
-	Matrice TrouverXParInversionMatricielle(Matrice B) {
-		if (!isEstReguliere()) {
-			System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
-			return null;
-		}
-
-		return getMatriceInverse().multiply(B);
-	}
-
-	public Matrice FaireProduitScalaire(int scalaire) {
+	
+	// Multiply the matrice by a scalar
+	public Matrice multiply(int scalaire) {
 		double[][] newMatrice = new double[getNbrLigne()][getNbrCol()];
 
 		for (int i = 0; i < getNbrLigne(); i++) {
@@ -123,6 +115,15 @@ public class Matrice {
 		}
 
 		return new Matrice(newMatrice);
+	}
+
+	Matrice TrouverXParInversionMatricielle(Matrice B) {
+		if (!isEstReguliere()) {
+			System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
+			return null;
+		}
+
+		return getMatriceInverse().multiply(B);
 	}
 
 	/* Méthode d'initialisation du tableau à deux dimension */
