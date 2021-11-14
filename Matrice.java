@@ -117,15 +117,6 @@ public class Matrice {
 		return new Matrice(newMatrice);
 	}
 
-	Matrice TrouverXParInversionMatricielle(Matrice B) {
-		if (!isEstReguliere()) {
-			System.out.println("Impossible de trouver les inconus par inversion matricielle : Matrice non inversible");
-			return null;
-		}
-
-		return getMatriceInverse().multiply(B);
-	}
-
 	/* Méthode d'initialisation du tableau à deux dimension */
 	public static double[][] UserCreationMatrice() {
 		double[][] matrice;
