@@ -102,7 +102,7 @@ public class Matrice {
 
 		return new Matrice(multipliedMatrice);
 	}
-	
+
 	// Multiply the matrice by a scalar
 	public Matrice multiply(int scalaire) {
 		double[][] newMatrice = new double[getNbrLigne()][getNbrCol()];
@@ -185,7 +185,7 @@ public class Matrice {
 	}
 
 	/* Méthode de validation de la saisie d'un entier par l'utilisateur */
-	private static boolean UserInputValidationForInt(String userInput) {
+	public static boolean UserInputValidationForInt(String userInput) {
 
 		try {
 			Integer.parseInt(userInput);
