@@ -39,8 +39,53 @@ public class Matrice {
 		return trace;
 	}
 
-	public double getDeterminant() {
-		return 0;
+	public double getDeterminant(){
+		if (isEstCarree()){
+				return Determinant(matrice);
+		
+			}
+			else return 0;
+		}
+			private  double Determinant (double [][] matrice) {
+				double newMatrice[][];
+				double deter = 0;
+		
+				if (matrice.length == 1) {
+					deter = matrice[0][0];
+					return (deter);
+				}
+		
+				if (matrice.length == 2) {
+					deter = ((matrice[0][0] * matrice[1][1]) - (matrice[0][1] * matrice[1][0]));
+					return (deter);
+				}
+		
+				for (int i = 0; i < matrice[0].length; i++) {
+					newMatrice = new double[matrice.length - 1][matrice[0].length - 1];
+		
+					for (int j = 1; j < matrice.length; j++) {
+						for (int k = 0; k < matrice[0].length; k++) {
+							if (k < i) {
+								newMatrice[j - 1][k] = matrice[j][k];
+							} else if (k > i) {
+								newMatrice[j - 1][k - 1] = matrice[j][k];
+							}
+						}
+					}
+		
+					deter += matrice[0][i] * Math.pow (-1, (double) i) * Determinant (newMatrice);
+				}
+				return (deter);
+			}
+	public Matrice Additionner(double [][]matrice){
+		double [][]somme= new double [getNbrLigne()][getNbrCol()];
+		for (int i=0;i<getNbrLigne();i++){
+			for (int j=0;j<getNbrCol();j++)
+			{
+				somme [i][j]= matrice[i][j]+matrice[i][j];
+		}
+}				
+return new Matrice (somme);
 	}
 
 	public Matrice getTransposee() {
@@ -66,7 +111,7 @@ public class Matrice {
 	}
 
 	public boolean isEstCarree() {
-		return false;
+		return (getNbrLigne()==getNbrCol());
 	}
 
 	public boolean isEstReguliere() {
