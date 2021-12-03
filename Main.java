@@ -18,7 +18,7 @@ public class Main {
 	
 	
 	double determinant ;
-	determinant=tabMatrice1.length;
+	determinant=matrice.getDeterminant();
 		System.out.println("le determinant est :" + determinant);
 
 	matrice = matrice.multiply(matrice);
