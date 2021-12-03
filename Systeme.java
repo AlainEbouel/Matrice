@@ -52,9 +52,9 @@ public class Systeme {
 
 				for (int i = 0; i < A.getNbrCol(); i++) {
 
-					tabA[i][k] = B.getMatrice()[i][1];
+					tabA[i][k] = B.getMatrice()[i][0];
 				}
-				X[k][1] = new Matrice(tabA).getDeterminant() / A.getDeterminant();
+				X[k][0] = new Matrice(tabA).getDeterminant() / A.getDeterminant();
 			}
 
 			return new Matrice(X);
