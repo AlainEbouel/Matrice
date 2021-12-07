@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Matrice {
 	private double[][] matrice;
+	private int  NbrCol;
 
 	public Matrice() {
 		matrice = null;
