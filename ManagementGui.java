@@ -6,8 +6,9 @@ public class ManagementGui extends Gui {
             "Gestion de matrices:\n\n" + 
             "1) Definir nouvelle matrice\n" +
             "2) Afficher matrice\n" +
+            "3) Supprimer matrice\n" +
             "\n" +
-            "3) Retour au Menu principal\n" +
+            "4) Retour au Menu principal\n" +
             "\n"
         );
         
@@ -15,7 +16,7 @@ public class ManagementGui extends Gui {
 
     @Override
     public Gui GetNextMenu() {
-        return UserSelectedGui(new NewMatrixGui(), new DisplayMatrixGui(), new MainGui());
+        return UserSelectedGui(new NewMatrixGui(), new DisplayMatrixGui(), new DeleteMatrixGui(), new MainGui());
     }
     
 }
