@@ -6,12 +6,15 @@ public class Main {
 
 		/* Affichage temporaire pour tests */
 		// ********************************************************************** */
-		double A[][] = { { 1, 3, 4 }, { 3, 5, -4 }, { 4, 7, -2 } };
-		double B[][] = { { 50 }, { 2 }, { 31 } };
+		double A[][] = { { 3, 1, -1 }, { 1, 5, 2 }, { 2, 1, 4 } };
+		double B[][] = { { 40 }, { 130 }, { 170 } };
 
 		Systeme sys = new Systeme(new Matrice(A), new Matrice(B));
 
 		System.out.println("Cramer :\n" + sys.TrouverXParCramer());
+
+		System.out.println("Jacobi :\n" + sys.TrouverXParJacobi(5));
+
 		System.out.println("Inversion matricielle :\n" + sys.TrouverXParInversionMatricielle());
 		// Solution attendue : X = {3, 5, 8}.
 

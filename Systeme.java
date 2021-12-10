@@ -60,4 +60,60 @@ public class Systeme {
 			return new Matrice(X);
 		}
 	}
+
+	Matrice TrouverXParJacobi(int epsilon) {
+
+		if (DominanceDiagonalStrict(A)) {
+
+			double[][] X = new double[A.getNbrLigne()][1];
+			double[] vector = { 0, 0, 0 };
+			double d;
+
+			while (epsilon > 0) {
+				for (int i = 0; i < A.getNbrCol(); i++) {
+					d = 0;
+
+					for (int j = 0; j < A.getNbrCol(); j++) {
+						if (i != j) {
+
+							d += -1 * A.getMatrice()[i][j] * vector[j];
+						}
+					}
+
+					X[i][0] = (1 / A.getMatrice()[i][i]) * (B.getMatrice()[i][0] + d);
+				}
+
+				for (int k = 0; k < X.length; k++)
+					vector[k] = X[k][0];
+
+				epsilon--;
+			}
+
+			return new Matrice(X);
+		}
+
+		System.out.println(
+				"La Impossible d'utiliser la méthode de Jacobi. La condition de convergence n'est pas respectée");
+		return null;
+	}
+
+	private boolean DominanceDiagonalStrict(Matrice A) {
+		double diag;
+		double sum;
+
+		for (int i = 0; i < A.getNbrLigne(); i++) {
+			diag = Math.abs(A.getMatrice()[i][i]);
+			sum = 0;
+
+			for (int j = 0; j < A.getNbrCol(); j++) {
+				if (i != j)
+					sum += Math.abs(A.getMatrice()[i][j]);
+			}
+
+			System.out.println("diag = " + diag + "      sum = " + sum);
+			if (diag < sum)
+				return false;
+		}
+		return true;
+	}
 }

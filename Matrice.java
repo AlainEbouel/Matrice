@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class Matrice {
 	private double[][] matrice;
-	private int  NbrCol;
+	private int NbrCol;
 
 	public Matrice() {
 		matrice = null;
@@ -40,77 +40,78 @@ public class Matrice {
 		return trace;
 	}
 
-	//Methode permettant d'afficher la matrice
-	public void Afficher() {
-		for(int i = 0; i < getNbrLigne(); ++i) {
-			System.out.print("[");
-			for(int j = 0; j < getNbrCol(); ++j) {
-				System.out.print(this.matrice[i][j]+"\t");
-			}
-			System.out.println("]");
-		}
-	}
-	//Methode de verification si une matrice est triangulaire
+	// Methode permettant d'afficher la matrice
+	/*
+	 * public void Afficher() {
+	 * for (int i = 0; i < getNbrLigne(); ++i) {
+	 * System.out.print("[");
+	 * for (int j = 0; j < getNbrCol(); ++j) {
+	 * System.out.print(this.matrice[i][j] + "\t");
+	 * }
+	 * System.out.println("]");
+	 * }
+	 * }
+	 */
+
+	// Methode de verification si une matrice est triangulaire
 	public boolean estTriangulaire(int pVt, int pVs) {
 
-		//un premier paramètre doit dire si on souhaite vérifier si la méthode est triangulaire
+		// un premier paramètre doit dire si on souhaite vérifier si la méthode est
+		// triangulaire
 		Matrice A = this;
-		boolean triangleSup = false,triangleInf = false, triangleStr = false;
-		if(pVt ==1) {
-			//Matrice triangulaire supérieure
-			//si bi,j = 0 chaque fois que i > j
+		boolean triangleSup = false, triangleInf = false, triangleStr = false;
+		if (pVt == 1) {
+			// Matrice triangulaire supérieure
+			// si bi,j = 0 chaque fois que i > j
 			for (int i = 0; i < A.getNbrLigne(); i++) {
 				for (int j = 0; i > j; j++) {
-					if (A.matrice[i][j]==0) 
-					{
+					if (A.matrice[i][j] == 0) {
 						triangleSup = true;
 						System.out.println("La matrice est triangulaire superieur");
-					}else {
+					} else {
 						triangleSup = false;
 						System.out.println("La matrice n'est pas triangulaire superieur");
 					}
 				}
 			}
 
-			//Matrice triangulaire inférieure
-			//si ci,j = 0 chaque fois que i < j
+			// Matrice triangulaire inférieure
+			// si ci,j = 0 chaque fois que i < j
 			for (int i = 0; i < A.getNbrLigne(); i++) {
 				for (int j = 0; i < j; j++) {
-					if (A.matrice[i][j]==0) 
-					{
+					if (A.matrice[i][j] == 0) {
 						triangleInf = true;
 						System.out.println("La matrice est triangulaire inferieur");
-					}else {
+					} else {
 						triangleInf = false;
 						System.out.println("La matrice n'est pas triangulaire inferieur");
 					}
 				}
 			}
 		}
-		if(pVs==2) {
-			//Matrice triangulaire stricte
-			//si ci,j = 0 chaque fois que i >= j ou chaque fois que i <= j
+		if (pVs == 2) {
+			// Matrice triangulaire stricte
+			// si ci,j = 0 chaque fois que i >= j ou chaque fois que i <= j
 			for (int i = 0; i < A.getNbrLigne(); i++) {
-				for (int j = 0; i >= j||i <= j; j++) {
-					if (A.matrice[i][j]==0) 
-					{
+				for (int j = 0; i >= j || i <= j; j++) {
+					if (A.matrice[i][j] == 0) {
 						triangleStr = true;
 						System.out.println("La matrice est triangulaire strict");
-					}else {
-						triangleStr  = false;
+					} else {
+						triangleStr = false;
 						System.out.println("La matrice n'est pas triangulaire strict");
 					}
 				}
 			}
 		}
-		if(triangleInf == true ||triangleSup == true ||triangleStr == true) {
-		return true;
-				}else return false;
+		if (triangleInf == true || triangleSup == true || triangleStr == true) {
+			return true;
+		} else
+			return false;
 	}
 
-	//Methode permettant de calculer la sous-matrice
-	public Matrice subMatrix( int exclude_row, int exclude_col)
-	{
+	// Methode permettant de calculer la sous-matrice
+	public Matrice subMatrix(int exclude_row, int exclude_col) {
 		Matrice result = new Matrice(matrice);
 
 		for (int row = 0, p = 0; row < this.getNbrLigne(); ++row) {
@@ -129,55 +130,43 @@ public class Matrice {
 		return result;
 	}
 
-	
-	public Matrice coMatrice()
-		{
-			if(this.isEstCarree()==false)
-			{
-				return null;
-			}
-			else{
-				Matrice Comatrice=new Matrice(matrice);
-				for (int i = 0; i < getNbrLigne(); i++)
-				{
-					for (int j = 0; j < getNbrCol(); j++)
-					{
-						Matrice sub = subMatrix(i+1, j + 1);
-						Comatrice.matrice[j][i]=Math.pow(-1,i+j)*sub.getDeterminant();
-					}
-
+	public Matrice coMatrice() {
+		if (this.isEstCarree() == false) {
+			return null;
+		} else {
+			Matrice Comatrice = new Matrice(matrice);
+			for (int i = 0; i < getNbrLigne(); i++) {
+				for (int j = 0; j < getNbrCol(); j++) {
+					Matrice sub = subMatrix(i + 1, j + 1);
+					Comatrice.matrice[j][i] = Math.pow(-1, i + j) * sub.getDeterminant();
 				}
-				return Comatrice;
-			}
 
+			}
+			return Comatrice;
 		}
 
-		//Methode permettant de trouver l'inverse d'une matrice
-		public Matrice matriceInverse()
-		{
-			double det=this.getDeterminant();
-			//Verifie si la matrice est régulière et carrée
-			if(this.isEstReguliere()==false || this.isEstCarree()==false)
-			{
-				System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
-				return null ;
-			}
-			else
-			{
-				Matrice coMa=this.coMatrice();
+	}
 
-				Matrice inverse= coMa.FaireProduitScalaire(1/det);
-				return inverse;
-			}
+	// Methode permettant de trouver l'inverse d'une matrice
+	public Matrice matriceInverse() {
+		double det = this.getDeterminant();
+		// Verifie si la matrice est régulière et carrée
+		if (this.isEstReguliere() == false || this.isEstCarree() == false) {
+			System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
+			return null;
+		} else {
+			Matrice coMa = this.coMatrice();
 
+			Matrice inverse = coMa.FaireProduitScalaire(1 / det);
+			return inverse;
 		}
 
+	}
 
 	private Matrice FaireProduitScalaire(double d) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	public double getDeterminant() {
 
