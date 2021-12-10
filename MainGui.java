@@ -1,5 +1,3 @@
-
-
 public class MainGui extends Gui {
     
     @Override

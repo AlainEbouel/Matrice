@@ -40,16 +40,7 @@ public class Matrice {
 		return trace;
 	}
 
-	//Methode permettant d'afficher la matrice
-	public void Afficher() {
-		for(int i = 0; i < getNbrLigne(); ++i) {
-			System.out.print("[");
-			for(int j = 0; j < getNbrCol(); ++j) {
-				System.out.print(this.matrice[i][j]+"\t");
-			}
-			System.out.println("]");
-		}
-	}
+	
 	//Methode de verification si une matrice est triangulaire
 	public boolean estTriangulaire(int pVt, int pVs) {
 
@@ -403,6 +394,17 @@ public class Matrice {
 			affichageMatrice += "|\n";
 		}
 		return affichageMatrice;
+	}
+
+	//Methode permettant d'afficher la matrice
+	public void Afficher() {
+		for(int i = 0; i < getNbrLigne(); ++i) {
+			System.out.print("[");
+			for(int j = 0; j < getNbrCol(); ++j) {
+				System.out.print(this.matrice[i][j]+"\t");
+			}
+			System.out.println("]");
+		}
 	}
 
 }
