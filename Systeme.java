@@ -108,9 +108,7 @@ public class Systeme {
 			for (int j = 0; j < A.getNbrCol(); j++) {
 				if (i != j)
 					sum += Math.abs(A.getMatrice()[i][j]);
-			}
-
-			System.out.println("diag = " + diag + "      sum = " + sum);
+			}			
 			if (diag < sum)
 				return false;
 		}
