@@ -42,6 +42,7 @@ public abstract class ConsoleManagement {
     // ---------------------------------------
 
     public static void WaitForUserInput() {
+        System.out.println("\nVeuillez appuyer sur Entrée:");
         consoleInput.nextLine();
         while (!consoleInput.hasNextLine());
     }
