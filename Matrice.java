@@ -1,8 +1,11 @@
 
 import java.util.Scanner;
 
+import org.w3c.dom.css.Counter;
+
 public class Matrice {
 	private double[][] matrice;
+	private int NbrCol;
 
 	public Matrice() {
 		matrice = null;
@@ -39,55 +42,6 @@ public class Matrice {
 		return trace;
 	}
 
-	public double getDeterminant(){
-		if (isEstCarree()){
-				return Determinant(matrice);
-		
-			}
-			else return 0;
-		}
-			private  double Determinant (double [][] matrice) {
-				double newMatrice[][];
-				double deter = 0;
-		
-				if (matrice.length == 1) {
-					deter = matrice[0][0];
-					return (deter);
-				}
-		
-				if (matrice.length == 2) {
-					deter = ((matrice[0][0] * matrice[1][1]) - (matrice[0][1] * matrice[1][0]));
-					return (deter);
-				}
-		
-				for (int i = 0; i < matrice[0].length; i++) {
-					newMatrice = new double[matrice.length - 1][matrice[0].length - 1];
-		
-					for (int j = 1; j < matrice.length; j++) {
-						for (int k = 0; k < matrice[0].length; k++) {
-							if (k < i) {
-								newMatrice[j - 1][k] = matrice[j][k];
-							} else if (k > i) {
-								newMatrice[j - 1][k - 1] = matrice[j][k];
-							}
-						}
-					}
-		
-					deter += matrice[0][i] * Math.pow (-1, (double) i) * Determinant (newMatrice);
-				}
-				return (deter);
-			}
-	public Matrice Additionner(double [][]matrice){
-		double [][]somme= new double [getNbrLigne()][getNbrCol()];
-		for (int i=0;i<getNbrLigne();i++){
-			for (int j=0;j<getNbrCol();j++)
-			{
-				somme [i][j]= matrice[i][j]+matrice[i][j];
-		}
-}				
-return new Matrice (somme);
-	}
-
 	public Matrice getTransposee() {
 
 		double[][] transpose = new double[getNbrCol()][getNbrLigne()];
@@ -101,22 +55,222 @@ return new Matrice (somme);
 		return new Matrice(transpose);
 	}
 
-	/* TO DO : completer l'implementation des 4 proprietes ci-dessous */
 	public Matrice getCoMatrice() {
-		return new Matrice();
+
+		double[][] comatrice = new double[getNbrCol()][getNbrLigne()];
+		int coef = 1;
+
+		if (this.isEstCarree() == false) {
+			return null;
+
+		} else {
+			Matrice Comatrice = new Matrice(matrice);
+
+			double tabA[][] = new double[getNbrLigne()][getNbrCol()];
+
+			/*
+			 * for (int i = 0; i < getNbrLigne(); i++) {
+			 * for (int j = 0; j < getNbrCol(); j++) {
+			 * 
+			 * tabA[i][j] = getMatrice()[i][j];
+			 * }
+			 * }
+			 */
+
+			for (int i = 0; i < getNbrLigne(); i++) {
+				for (int j = 0; j < getNbrCol(); j++) {
+					// System.out.println(subMatrice(Comatrice, i, j));
+					tabA[i][j] = Math.pow(-1, i + j) * subMatrice(Comatrice, i, j).getDeterminant();
+					// coef *= -1;
+					System.out.print(Math.pow(-1, i + j) + " ");
+
+				}
+				System.out.println("\n ");
+
+			}
+			return new Matrice(tabA);
+		}
 	}
 
+	private Matrice subMatrice(Matrice mat, int i, int j) {
+		int indexI = 0, indexJ = 0;
+		int counter;
+		double subMatrice[][] = new double[mat.getNbrLigne() - 1][mat.getNbrCol() - 1];
+
+		Matrice sub = new Matrice(subMatrice);
+
+		for (int k = 0; k < mat.getNbrCol(); k++) {
+			counter = 0;
+			for (int l = 0; l < mat.getNbrCol(); l++) {
+				if (k != i && l != j) {
+					// System.out.print(" K = " + k + " L = " + l);// mat.matrice[k][l]);
+					// System.out.print(" indexI = " + indexI + " indexY = " + indexJ);
+					subMatrice[indexI][indexJ++] = mat.matrice[k][l];
+
+					// System.out.print(" mat.matrice[k][l] = " + mat.matrice[k][l]);
+
+					counter++;
+					// System.out.println("l = " + counter);
+					// System.out.print(" COUNTER = " + counter);
+					if (counter == (mat.getNbrCol() - 1)) {
+						indexI++;
+						// System.out.print(" IF INDEX TEST " + counter + " COL = " + getNbrCol());
+					}
+				}
+
+			}
+			// System.out.println("\n");
+			// System.out.println("indexI = " + indexI);
+
+			indexJ = 0;
+		}
+		// System.out.println(sub);
+		return new Matrice(subMatrice);
+	}
+
+	// Methode permettant de trouver l'inverse d'une matrice
 	public Matrice getMatriceInverse() {
-		return new Matrice();
+
+		double det = this.getDeterminant();
+
+		// Verifie si la matrice est régulière et carrée
+		if (getDeterminant() != 0 || this.isEstCarree() == false) {
+			System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
+			return null;
+
+		} else {
+			Matrice coMa = this.getCoMatrice();
+			Matrice inverse = coMa.multiply(1 / det);
+			return inverse;
+		}
 	}
 
 	public boolean isEstCarree() {
-		return (getNbrLigne()==getNbrCol());
+		return (getNbrLigne() == getNbrCol());
 	}
 
 	public boolean isEstReguliere() {
 		// Matrice inversible
 		return isEstCarree() && (getDeterminant() > 0);
+	}
+
+	// Methode de verification si une matrice est triangulaire
+	public boolean estTriangulaire(int pVt, int pVs) {
+
+		// un premier paramètre doit dire si on souhaite vérifier si la méthode est
+		// triangulaire
+		Matrice A = this;
+		boolean triangleSup = false, triangleInf = false, triangleStr = false;
+		if (pVt == 1) {
+			// Matrice triangulaire supérieure
+			// si bi,j = 0 chaque fois que i > j
+			for (int i = 0; i < A.getNbrLigne(); i++) {
+				for (int j = 0; i > j; j++) {
+					if (A.matrice[i][j] == 0) {
+						triangleSup = true;
+						System.out.println("La matrice est triangulaire superieur");
+					} else {
+						triangleSup = false;
+						System.out.println("La matrice n'est pas triangulaire superieur");
+					}
+				}
+			}
+
+			// Matrice triangulaire inférieure
+			// si ci,j = 0 chaque fois que i < j
+			for (int i = 0; i < A.getNbrLigne(); i++) {
+				for (int j = 0; i < j; j++) {
+					if (A.matrice[i][j] == 0) {
+						triangleInf = true;
+						System.out.println("La matrice est triangulaire inferieur");
+					} else {
+						triangleInf = false;
+						System.out.println("La matrice n'est pas triangulaire inferieur");
+					}
+				}
+			}
+		}
+		if (pVs == 2) {
+			// Matrice triangulaire stricte
+			// si ci,j = 0 chaque fois que i >= j ou chaque fois que i <= j
+			for (int i = 0; i < A.getNbrLigne(); i++) {
+				for (int j = 0; i >= j || i <= j; j++) {
+					if (A.matrice[i][j] == 0) {
+						triangleStr = true;
+						System.out.println("La matrice est triangulaire strict");
+					} else {
+						triangleStr = false;
+						System.out.println("La matrice n'est pas triangulaire strict");
+					}
+				}
+			}
+		}
+		if (triangleInf == true || triangleSup == true || triangleStr == true) {
+			return true;
+		} else
+			return false;
+	}
+
+	// Methode permettant de calculer la sous-matrice
+	private Matrice subMatrix(int exclude_row, int exclude_col) {
+		Matrice result = new Matrice(matrice);
+
+		for (int row = 0, p = 0; row < this.getNbrLigne(); ++row) {
+			if (row != exclude_row - 1) {
+				for (int col = 0, q = 0; col < this.getNbrCol(); ++col) {
+					if (col != exclude_col - 1) {
+						result.matrice[p][q] = this.matrice[row][col];
+						++q;
+					}
+				}
+				++p;
+			}
+		}
+
+		return result;
+	}
+
+	public double getDeterminant() {
+
+		double newMatrice[][];
+		double deter = 0;
+
+		if (matrice.length == 1) {
+			deter = matrice[0][0];
+			return (deter);
+		}
+
+		if (matrice.length == 2) {
+			deter = ((matrice[0][0] * matrice[1][1]) - (matrice[0][1] * matrice[1][0]));
+			return (deter);
+		}
+
+		for (int i = 0; i < matrice[0].length; i++) {
+			newMatrice = new double[matrice.length - 1][matrice[0].length - 1];
+
+			for (int j = 1; j < matrice.length; j++) {
+				for (int k = 0; k < matrice[0].length; k++) {
+					if (k < i) {
+						newMatrice[j - 1][k] = matrice[j][k];
+					} else if (k > i) {
+						newMatrice[j - 1][k - 1] = matrice[j][k];
+					}
+				}
+			}
+
+			deter += matrice[0][i] * Math.pow(-1, (double) i) * new Matrice(newMatrice).getDeterminant();
+		}
+		return (deter);
+	}
+
+	public Matrice Additionner(Matrice matrice) {
+		double[][] somme = new double[getNbrLigne()][getNbrCol()];
+		for (int i = 0; i < getNbrLigne(); i++) {
+			for (int j = 0; j < getNbrCol(); j++) {
+				somme[i][j] = this.matrice[i][j] + matrice.matrice[i][j];
+			}
+		}
+		return new Matrice(somme);
 	}
 
 	public double getNumber(int ligne, int colonne) {
@@ -149,7 +303,7 @@ return new Matrice (somme);
 	}
 
 	// Multiply the matrice by a scalar
-	public Matrice multiply(int scalaire) {
+	public Matrice multiply(double scalaire) {
 		double[][] newMatrice = new double[getNbrLigne()][getNbrCol()];
 
 		for (int i = 0; i < getNbrLigne(); i++) {
@@ -269,6 +423,17 @@ return new Matrice (somme);
 			affichageMatrice += "|\n";
 		}
 		return affichageMatrice;
+	}
+
+	//Methode permettant d'afficher la matrice
+	public void Afficher() {
+		for(int i = 0; i < getNbrLigne(); ++i) {
+			System.out.print("[");
+			for(int j = 0; j < getNbrCol(); ++j) {
+				System.out.print(this.matrice[i][j]+"\t");
+			}
+			System.out.println("]");
+		}
 	}
 
 }
