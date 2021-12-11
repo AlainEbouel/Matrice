@@ -201,11 +201,11 @@ public class Matrice {
 		return (deter);
 	}
 
-	public Matrice Additionner(double[][] matrice) {
+	public Matrice Additionner(Matrice matrice) {
 		double[][] somme = new double[getNbrLigne()][getNbrCol()];
 		for (int i = 0; i < getNbrLigne(); i++) {
 			for (int j = 0; j < getNbrCol(); j++) {
-				somme[i][j] = matrice[i][j] + matrice[i][j];
+				somme[i][j] = this.matrice[i][j] + matrice.matrice[i][j];
 			}
 		}
 		return new Matrice(somme);
@@ -272,7 +272,7 @@ public class Matrice {
 	}
 
 	// Multiply the matrice by a scalar
-	public Matrice multiply(int scalaire) {
+	public Matrice multiply(double scalaire) {
 		double[][] newMatrice = new double[getNbrLigne()][getNbrCol()];
 
 		for (int i = 0; i < getNbrLigne(); i++) {
@@ -392,6 +392,17 @@ public class Matrice {
 			affichageMatrice += "|\n";
 		}
 		return affichageMatrice;
+	}
+
+	//Methode permettant d'afficher la matrice
+	public void Afficher() {
+		for(int i = 0; i < getNbrLigne(); ++i) {
+			System.out.print("[");
+			for(int j = 0; j < getNbrCol(); ++j) {
+				System.out.print(this.matrice[i][j]+"\t");
+			}
+			System.out.println("]");
+		}
 	}
 
 }
