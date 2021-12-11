@@ -150,7 +150,7 @@ public class Matrice {
 
 	public boolean isEstReguliere() {
 		// Matrice inversible
-		return isEstCarree() && (getDeterminant() > 0);
+		return isEstCarree() && (getDeterminant() != 0);
 	}
 
 	// Methode de verification si une matrice est triangulaire
