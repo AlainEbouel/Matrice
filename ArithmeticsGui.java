@@ -15,7 +15,12 @@ public class ArithmeticsGui extends Gui {
 
     @Override
     public Gui GetNextMenu() {
-        return UserSelectedGui(this, this, this, new MainGui());
+        return UserSelectedGui(
+            new ComputeGui(MatrixOperations.MatrixAddition),
+            new ComputeGui(MatrixOperations.MatrixByMatrixProduct),
+            new ComputeGui(MatrixOperations.MatrixByScalarProduct),
+            new MainGui()
+        );
     }
     
 }
