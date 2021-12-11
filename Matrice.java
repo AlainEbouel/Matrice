@@ -81,10 +81,10 @@ public class Matrice {
 					// System.out.println(subMatrice(Comatrice, i, j));
 					tabA[i][j] = Math.pow(-1, i + j) * subMatrice(Comatrice, i, j).getDeterminant();
 					// coef *= -1;
-					System.out.print(Math.pow(-1, i + j) + " ");
+					//System.out.print(Math.pow(-1, i + j) + " ");
 
 				}
-				System.out.println("\n ");
+				//System.out.println("\n ");
 
 			}
 			return new Matrice(tabA);
@@ -134,7 +134,7 @@ public class Matrice {
 
 		// Verifie si la matrice est régulière et carrée
 		if (getDeterminant() != 0 || this.isEstCarree() == false) {
-			System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
+			//System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
 			return null;
 
 		} else {
