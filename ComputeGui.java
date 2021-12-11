@@ -3,8 +3,9 @@ public class ComputeGui extends Gui {
     private MatrixOperations operator;
     private String guiTitle;
     private int minMatrices;
-    private Matrice firstMatrix, secondMatrix = null;
-    private double scalar = 0;
+    private Matrice[] matricesToCompute;
+    private double[] scalars;
+    private int nbOfMatrices, nbOfScalar;
 
     public ComputeGui(MatrixOperations operator) {
         this.operator = operator;
@@ -30,23 +31,33 @@ public class ComputeGui extends Gui {
     }
 
     private void GetValuesFromUser() {
-        int indexFirstMatrix;
-        int indexSecondMatrix = 1;
         do {
             ConsoleManagement.ClearConsole();
-            System.out.printf(guiTitle + "Veuillez selectioner %d matrice(s): ", minMatrices);
-            indexFirstMatrix = ConsoleManagement.GetSafeInteger();
-            if (minMatrices > 1)
-                indexSecondMatrix = ConsoleManagement.GetSafeInteger();
-        } while (!Utils.IsIntBetween(indexFirstMatrix, 1, Main.matrixList.size()) || !Utils.IsIntBetween(indexSecondMatrix, 1, Main.matrixList.size()));
+            System.out.printf(guiTitle + "Sur combien de termes effectuer l'opération (%d -> %d): ", 2, Main.matrixList.size());
+            nbOfMatrices = ConsoleManagement.GetSafeInteger();
+        } while (!Utils.IsIntBetween(nbOfMatrices, 2, Main.matrixList.size()));
 
-        firstMatrix = Main.matrixList.get(indexFirstMatrix - 1);
-        if (minMatrices > 1)
-            secondMatrix = Main.matrixList.get(indexSecondMatrix - 1);
-        else {
-            ConsoleManagement.ClearConsole();
-            System.out.print(guiTitle + "Veuillez entrer un scalaire: ");
-            scalar = ConsoleManagement.GetSafeDouble();
+        int[] matricesIndexes = new int[nbOfMatrices];
+        
+        if (operator == MatrixOperations.MatrixByScalarProduct)  {
+            nbOfScalar = nbOfMatrices - 1;
+            nbOfMatrices = 1;
+            scalars = new double[nbOfScalar];
+            for (int i = 0; i < nbOfScalar; i++) {
+                ConsoleManagement.ClearConsole();
+                System.out.print(guiTitle + "Veuillez entrer un scalaire: ");
+                scalars[i] = ConsoleManagement.GetSafeDouble();
+            }
+        }
+
+        matricesToCompute = new Matrice[nbOfMatrices];
+        for (int i = 0; i < nbOfMatrices; i++) {
+            do {
+                ConsoleManagement.ClearConsole();
+                System.out.printf(guiTitle + "Veuillez selectioner la matrice %d/%d: ", i, nbOfMatrices);
+                matricesIndexes[i] = ConsoleManagement.GetSafeInteger();
+            } while (!Utils.IsIntBetween(matricesIndexes[i], 1, Main.matrixList.size()));
+            matricesToCompute[i] = Main.matrixList.get(matricesIndexes[i] - 1);
         }
     }
 
@@ -70,18 +81,23 @@ public class ComputeGui extends Gui {
 
     private Matrice Compute() {
         Matrice resultMatrice;
+        resultMatrice = matricesToCompute[0];
         switch (operator) {
             default:
             case MatrixAddition:
-                resultMatrice = firstMatrix.Additionner(secondMatrix);
+                for (int i = 1; i < nbOfMatrices; i++)
+                    resultMatrice = resultMatrice.Additionner(matricesToCompute[i]);
                 break;
             case MatrixByMatrixProduct:
-                resultMatrice = firstMatrix.multiply(secondMatrix);
+                for (int i = 1; i < nbOfMatrices; i++)
+                    resultMatrice = resultMatrice.multiply(matricesToCompute[i]);
                 break;
             case MatrixByScalarProduct:
-                resultMatrice = firstMatrix.multiply(scalar);
+                for (int i = 0; i < nbOfScalar; i++)
+                    resultMatrice = resultMatrice.multiply(scalars[i]);
                 break;
         }
+        
         return resultMatrice;
     }
 
