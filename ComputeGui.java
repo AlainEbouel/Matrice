@@ -10,10 +10,6 @@ public class ComputeGui extends Gui {
         this.operator = operator;
     }
 
-    private boolean IsIntBetween(int value, int bottom, int top) {
-        return ((value >= bottom) && (value <= top));
-    }
-
     @Override
     public void Draw() {
         Init();
@@ -28,9 +24,9 @@ public class ComputeGui extends Gui {
         DisplayResult(Compute());
     }
 
-    private void DisplayResult(Matrice resultat) {
+    private void DisplayResult(Matrice result) {
         ConsoleManagement.ClearConsole();
-        System.out.println(guiTitle + "Resultat:\n" + resultat);
+        System.out.println(guiTitle + "Resultat:\n" + result);
     }
 
     private void GetValuesFromUser() {
@@ -42,7 +38,7 @@ public class ComputeGui extends Gui {
             indexFirstMatrix = ConsoleManagement.GetSafeInteger();
             if (minMatrices > 1)
                 indexSecondMatrix = ConsoleManagement.GetSafeInteger();
-        } while (!IsIntBetween(indexFirstMatrix, 1, Main.matrixList.size()) || !IsIntBetween(indexSecondMatrix, 1, Main.matrixList.size()));
+        } while (!Utils.IsIntBetween(indexFirstMatrix, 1, Main.matrixList.size()) || !Utils.IsIntBetween(indexSecondMatrix, 1, Main.matrixList.size()));
 
         firstMatrix = Main.matrixList.get(indexFirstMatrix - 1);
         if (minMatrices > 1)

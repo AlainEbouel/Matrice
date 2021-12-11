@@ -11,12 +11,16 @@ public class SolverGui extends Gui {
             "4) Retour au Menu principal\n" +
             "\n"
         );
-        
     }
 
     @Override
     public Gui GetNextMenu() {
-        return UserSelectedGui(this, this, this, new MainGui());
+        return UserSelectedGui(
+            new SolveComputeGui(SolveMethods.CramerMethod),
+            new SolveComputeGui(SolveMethods.InvMatMethod),
+            new SolveComputeGui(SolveMethods.JacobiMethod),
+            new MainGui()
+        );
     }
     
 }
