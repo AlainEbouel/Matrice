@@ -1,6 +1,8 @@
 
 import java.util.Scanner;
 
+import org.w3c.dom.css.Counter;
+
 public class Matrice {
 	private double[][] matrice;
 	private int NbrCol;
@@ -40,18 +42,117 @@ public class Matrice {
 		return trace;
 	}
 
-	// Methode permettant d'afficher la matrice
-	/*
-	 * public void Afficher() {
-	 * for (int i = 0; i < getNbrLigne(); ++i) {
-	 * System.out.print("[");
-	 * for (int j = 0; j < getNbrCol(); ++j) {
-	 * System.out.print(this.matrice[i][j] + "\t");
-	 * }
-	 * System.out.println("]");
-	 * }
-	 * }
-	 */
+	public Matrice getTransposee() {
+
+		double[][] transpose = new double[getNbrCol()][getNbrLigne()];
+
+		for (int i = 0; i < getNbrLigne(); i++) {
+			for (int j = 0; j < getNbrCol(); j++) {
+				transpose[j][i] = matrice[i][j];
+			}
+		}
+
+		return new Matrice(transpose);
+	}
+
+	public Matrice getCoMatrice() {
+
+		double[][] comatrice = new double[getNbrCol()][getNbrLigne()];
+		int coef = 1;
+
+		if (this.isEstCarree() == false) {
+			return null;
+
+		} else {
+			Matrice Comatrice = new Matrice(matrice);
+
+			double tabA[][] = new double[getNbrLigne()][getNbrCol()];
+
+			/*
+			 * for (int i = 0; i < getNbrLigne(); i++) {
+			 * for (int j = 0; j < getNbrCol(); j++) {
+			 * 
+			 * tabA[i][j] = getMatrice()[i][j];
+			 * }
+			 * }
+			 */
+
+			for (int i = 0; i < getNbrLigne(); i++) {
+				for (int j = 0; j < getNbrCol(); j++) {
+					// System.out.println(subMatrice(Comatrice, i, j));
+					tabA[i][j] = Math.pow(-1, i + j) * subMatrice(Comatrice, i, j).getDeterminant();
+					// coef *= -1;
+					System.out.print(Math.pow(-1, i + j) + " ");
+
+				}
+				System.out.println("\n ");
+
+			}
+			return new Matrice(tabA);
+		}
+	}
+
+	private Matrice subMatrice(Matrice mat, int i, int j) {
+		int indexI = 0, indexJ = 0;
+		int counter;
+		double subMatrice[][] = new double[mat.getNbrLigne() - 1][mat.getNbrCol() - 1];
+
+		Matrice sub = new Matrice(subMatrice);
+
+		for (int k = 0; k < mat.getNbrCol(); k++) {
+			counter = 0;
+			for (int l = 0; l < mat.getNbrCol(); l++) {
+				if (k != i && l != j) {
+					// System.out.print(" K = " + k + " L = " + l);// mat.matrice[k][l]);
+					// System.out.print(" indexI = " + indexI + " indexY = " + indexJ);
+					subMatrice[indexI][indexJ++] = mat.matrice[k][l];
+
+					// System.out.print(" mat.matrice[k][l] = " + mat.matrice[k][l]);
+
+					counter++;
+					// System.out.println("l = " + counter);
+					// System.out.print(" COUNTER = " + counter);
+					if (counter == (mat.getNbrCol() - 1)) {
+						indexI++;
+						// System.out.print(" IF INDEX TEST " + counter + " COL = " + getNbrCol());
+					}
+				}
+
+			}
+			// System.out.println("\n");
+			// System.out.println("indexI = " + indexI);
+
+			indexJ = 0;
+		}
+		// System.out.println(sub);
+		return new Matrice(subMatrice);
+	}
+
+	// Methode permettant de trouver l'inverse d'une matrice
+	public Matrice getMatriceInverse() {
+
+		double det = this.getDeterminant();
+
+		// Verifie si la matrice est régulière et carrée
+		if (getDeterminant() != 0 || this.isEstCarree() == false) {
+			System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
+			return null;
+
+		} else {
+			Matrice coMa = this.getCoMatrice();
+			Matrice inverse = coMa.multiply(1 / det);
+			return inverse;
+		}
+	}
+
+	public boolean isEstCarree() {
+		return (getNbrLigne() == getNbrCol());
+	}
+
+	public boolean isEstReguliere() {
+		// Matrice inversible
+		return isEstCarree() && (getDeterminant() > 0);
+	}
 
 	// Methode de verification si une matrice est triangulaire
 	public boolean estTriangulaire(int pVt, int pVs) {
@@ -111,7 +212,7 @@ public class Matrice {
 	}
 
 	// Methode permettant de calculer la sous-matrice
-	public Matrice subMatrix(int exclude_row, int exclude_col) {
+	private Matrice subMatrix(int exclude_row, int exclude_col) {
 		Matrice result = new Matrice(matrice);
 
 		for (int row = 0, p = 0; row < this.getNbrLigne(); ++row) {
@@ -119,7 +220,6 @@ public class Matrice {
 				for (int col = 0, q = 0; col < this.getNbrCol(); ++col) {
 					if (col != exclude_col - 1) {
 						result.matrice[p][q] = this.matrice[row][col];
-
 						++q;
 					}
 				}
@@ -128,44 +228,6 @@ public class Matrice {
 		}
 
 		return result;
-	}
-
-	public Matrice coMatrice() {
-		if (this.isEstCarree() == false) {
-			return null;
-		} else {
-			Matrice Comatrice = new Matrice(matrice);
-			for (int i = 0; i < getNbrLigne(); i++) {
-				for (int j = 0; j < getNbrCol(); j++) {
-					Matrice sub = subMatrix(i + 1, j + 1);
-					Comatrice.matrice[j][i] = Math.pow(-1, i + j) * sub.getDeterminant();
-				}
-
-			}
-			return Comatrice;
-		}
-
-	}
-
-	// Methode permettant de trouver l'inverse d'une matrice
-	public Matrice matriceInverse() {
-		double det = this.getDeterminant();
-		// Verifie si la matrice est régulière et carrée
-		if (this.isEstReguliere() == false || this.isEstCarree() == false) {
-			System.out.println("IMPOSSIBLE DE CALCULER L'INVERSE DE CETTE MATRICE");
-			return null;
-		} else {
-			Matrice coMa = this.coMatrice();
-
-			Matrice inverse = coMa.FaireProduitScalaire(1 / det);
-			return inverse;
-		}
-
-	}
-
-	private Matrice FaireProduitScalaire(double d) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public double getDeterminant() {
@@ -209,37 +271,6 @@ public class Matrice {
 			}
 		}
 		return new Matrice(somme);
-	}
-
-	public Matrice getTransposee() {
-
-		double[][] transpose = new double[getNbrCol()][getNbrLigne()];
-
-		for (int i = 0; i < getNbrLigne(); i++) {
-			for (int j = 0; j < getNbrCol(); j++) {
-				transpose[j][i] = matrice[i][j];
-			}
-		}
-
-		return new Matrice(transpose);
-	}
-
-	/* TO DO : completer l'implementation des 4 proprietes ci-dessous */
-	public Matrice getCoMatrice() {
-		return new Matrice();
-	}
-
-	public Matrice getMatriceInverse() {
-		return new Matrice();
-	}
-
-	public boolean isEstCarree() {
-		return (getNbrLigne() == getNbrCol());
-	}
-
-	public boolean isEstReguliere() {
-		// Matrice inversible
-		return isEstCarree() && (getDeterminant() > 0);
 	}
 
 	public double getNumber(int ligne, int colonne) {
