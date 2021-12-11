@@ -425,15 +425,15 @@ public class Matrice {
 		return affichageMatrice;
 	}
 
-	//Methode permettant d'afficher la matrice
-	public void Afficher() {
-		for(int i = 0; i < getNbrLigne(); ++i) {
-			System.out.print("[");
-			for(int j = 0; j < getNbrCol(); ++j) {
-				System.out.print(this.matrice[i][j]+"\t");
-			}
-			System.out.println("]");
-		}
-	}
-
+	/*
+	 * //Methode permettant d'afficher la matrice
+	 * public void Afficher() {
+	 * for(int i = 0; i < getNbrLigne(); ++i) {
+	 * System.out.print("[");
+	 * for(int j = 0; j < getNbrCol(); ++j) {
+	 * System.out.print(this.matrice[i][j]+"\t");
+	 * }
+	 * System.out.println("]");
+	 * }
+	 */
 }
